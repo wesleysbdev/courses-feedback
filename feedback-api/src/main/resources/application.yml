@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: feedback-api
+
+  mvc:
+    servlet:
+      path: /api/v1
+
+logging:
+  level:
+    org.hibernate.orm.results: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.springframework.security: TRACE
