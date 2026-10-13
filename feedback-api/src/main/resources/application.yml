@@ -6,6 +6,31 @@ spring:
     servlet:
       path: /api/v1
 
+  security:
+    jwt:
+      issuer: "feedback-api"
+      secret-key: ${JWT_SECRET:2d57500fd645f84103d0fb2f277b629d1d7a3ecd8fc9774fdd345bddbe2eab5f}
+      expiration-seconds: 3600
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/courses-feedback}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:validate}
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+  flyway:
+    enabled: true
+
 logging:
   level:
     org.hibernate.orm.results: DEBUG

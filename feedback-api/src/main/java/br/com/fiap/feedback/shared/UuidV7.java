@@ -42,4 +42,8 @@ public final class UuidV7 {
 
         return new UUID(msb, lsb);
     }
+
+    public static boolean validate(UUID uuid) {
+        return uuid.version() == 7;
+    }
 }

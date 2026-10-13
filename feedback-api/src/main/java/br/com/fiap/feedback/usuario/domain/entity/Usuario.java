@@ -5,6 +5,7 @@ import br.com.fiap.feedback.usuario.domain.enums.TipoUsuario;
 import br.com.fiap.feedback.usuario.domain.exception.UsuarioDadosInvalidosException;
 import br.com.fiap.feedback.usuario.domain.vo.Email;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Usuario {
@@ -17,15 +18,31 @@ public class Usuario {
     private boolean excluido;
     private TipoUsuario tipo;
 
-    public Usuario(String nome, Email email, String senha, boolean ativo, boolean excluido, TipoUsuario tipo) {
+    public Usuario(UUID id, String nome, Email email, String senha, boolean ativo, boolean excluido, TipoUsuario tipo) {
+        validarIdentificador(id);
         validarDadosObrigatorios(nome, email, senha, tipo);
-        this.id = UuidV7.generate();
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.ativo = ativo;
         this.excluido = excluido;
         this.tipo = tipo;
+    }
+
+    public static Usuario criar(String nome, Email email, String senha, TipoUsuario tipo) {
+        return new Usuario(UuidV7.generate(), nome, email, senha, true, false, tipo);
+    }
+
+    private static void validarIdentificador(UUID id) {
+        if (id == null) {
+            throw new UsuarioDadosInvalidosException("O objeto deve possuir uma identificação.");
+        }
+
+        if (!UuidV7.validate(id)) {
+            throw new UsuarioDadosInvalidosException("O identificador é inválido.");
+        }
+
     }
 
     private static void validarDadosObrigatorios(String nome, Email email, String senha, TipoUsuario tipo) {
@@ -35,6 +52,10 @@ public class Usuario {
 
         if (senha == null || senha.isBlank()) {
             throw new UsuarioDadosInvalidosException("A senha é obrigatória.");
+        }
+
+        if (email == null) {
+            throw new UsuarioDadosInvalidosException("Email é obrigatório.");
         }
 
         if (tipo == null) {
@@ -70,6 +91,7 @@ public class Usuario {
 
     public void excluir() {
         this.excluido = true;
+        this.ativo = false;
     }
 
     public void definirNovaSenha(String senhaHash) {
