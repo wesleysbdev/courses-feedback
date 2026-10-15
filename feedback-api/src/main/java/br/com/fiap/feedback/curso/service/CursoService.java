@@ -2,7 +2,7 @@ package br.com.fiap.feedback.curso.service;
 
 import br.com.fiap.feedback.curso.persistence.model.CursoModel;
 import br.com.fiap.feedback.curso.persistence.repository.CursoRepository;
-import br.com.fiap.feedback.curso.web.dto.CriarCursoRequest;
+import br.com.fiap.feedback.curso.web.dto.CursoRequest;
 import br.com.fiap.feedback.usuario.domain.enums.TipoUsuario;
 import br.com.fiap.feedback.usuario.persistence.model.UsuarioModel;
 import br.com.fiap.feedback.usuario.persistence.repository.UsuarioRepository;
@@ -19,7 +19,7 @@ public class CursoService {
     private final UsuarioRepository usuarioRepository;
 
     @Transactional
-    public CursoModel criar(CriarCursoRequest request) {
+    public CursoModel criar(CursoRequest request) {
 
         // TO DO: Ajustar exception
         UsuarioModel professor = usuarioRepository.findById(request.professorId())

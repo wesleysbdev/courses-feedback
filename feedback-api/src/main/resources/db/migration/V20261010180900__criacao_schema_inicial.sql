@@ -28,7 +28,7 @@ CREATE TABLE public.curso
     CONSTRAINT fk_curso_professor FOREIGN KEY (professor_id) REFERENCES usuario (id) ON DELETE RESTRICT
 );
 
-CREATE TABLE matricula
+CREATE TABLE public.matricula
 (
     id             UUID        NOT NULL,
     aluno_id       UUID        NOT NULL,
@@ -43,6 +43,20 @@ CREATE TABLE matricula
     CONSTRAINT chk_matricula_status CHECK (status IN ('EM_ANDAMENTO', 'CONCLUIDA'))
 );
 
+CREATE TABLE public.feedback
+(
+    id           UUID          NOT NULL,
+    matricula_id UUID          NOT NULL,
+    descricao    VARCHAR(1024) NOT NULL,
+    nota         INTEGER       NOT NULL,
+    criado_em    TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT pk_feedback PRIMARY KEY (id),
+    CONSTRAINT fk_feedback_matricula FOREIGN KEY (matricula_id) REFERENCES matricula (id) ON DELETE CASCADE,
+    CONSTRAINT uk_feedback_matricula UNIQUE (matricula_id),
+    CONSTRAINT chk_feedback_nota CHECK (nota >= 0 AND nota <= 10)
+);
+
 -- ÍNDICES
 CREATE INDEX idx_curso_professor_id ON curso (professor_id);
 
@@ -51,3 +65,7 @@ CREATE INDEX idx_curso_ativo ON curso (ativo);
 CREATE INDEX idx_matricula_curso_id ON matricula (curso_id);
 
 CREATE INDEX idx_matricula_status ON matricula (status);
+
+CREATE INDEX idx_feedback_matricula_id ON feedback (matricula_id);
+
+CREATE INDEX idx_feedback_criacao ON feedback (criado_em);

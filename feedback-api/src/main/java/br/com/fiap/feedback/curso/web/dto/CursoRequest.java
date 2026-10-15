@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.UUID;
 
-public record CriarCursoRequest(
+public record CursoRequest(
         @NotBlank
         @Size(max = 150)
         String nome,
