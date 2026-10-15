@@ -6,4 +6,8 @@ public class UsuarioNaoEncontradoException extends RegraDeNegocioException {
     public UsuarioNaoEncontradoException() {
         super("Usuário não encontrado.");
     }
+
+    public UsuarioNaoEncontradoException(String message) {
+        super(message);
+    }
 }
