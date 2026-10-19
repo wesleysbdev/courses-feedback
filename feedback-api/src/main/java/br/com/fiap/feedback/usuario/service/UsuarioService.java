@@ -16,14 +16,14 @@ import br.com.fiap.feedback.usuario.web.dto.UsuarioCadastroRequest;
 import br.com.fiap.feedback.usuario.web.dto.UsuarioEdicaoRequest;
 import br.com.fiap.feedback.usuario.web.dto.UsuarioResponse;
 import br.com.fiap.feedback.usuario.web.mapper.UsuarioMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository repository;
