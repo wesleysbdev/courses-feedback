@@ -1,5 +1,6 @@
 package br.com.fiap.feedback.curso.domain.entity;
 
+import br.com.fiap.feedback.curso.domain.exception.CursoDadosInvalidosException;
 import br.com.fiap.feedback.shared.UuidV7;
 import br.com.fiap.feedback.usuario.domain.entity.Usuario;
 import br.com.fiap.feedback.usuario.domain.exception.UsuarioDadosInvalidosException;
@@ -23,21 +24,21 @@ public class Curso {
         this.professor = professor;
     }
 
-    public static Curso criar(String nome, String descricao, boolean ativo, Usuario professor) {
+    public static Curso criar(String nome, String descricao, Usuario professor) {
         return new Curso(UuidV7.generate(), nome, descricao, true, professor);
     }
 
     private static void validarDadosObrigatorios(String nome, String descricao, Usuario professor) {
         if (nome == null || nome.isBlank()) {
-            throw new UsuarioDadosInvalidosException("Nome é obrigatório.");
+            throw new CursoDadosInvalidosException("Nome é obrigatório.");
         }
 
         if (descricao == null || descricao.isBlank()) {
-            throw new UsuarioDadosInvalidosException("A descrição é obrigatória.");
+            throw new CursoDadosInvalidosException("A descrição é obrigatória.");
         }
 
         if (professor == null) {
-            throw new UsuarioDadosInvalidosException("O professor é obrigatório.");
+            throw new CursoDadosInvalidosException("O professor é obrigatório.");
         }
     }
 

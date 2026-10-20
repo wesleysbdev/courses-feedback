@@ -5,7 +5,7 @@ import br.com.fiap.feedback.usuario.domain.enums.TipoUsuario;
 import java.util.UUID;
 
 public record UsuarioAutenticado(
-        UUID uuid,
+        UUID id,
         String nome,
         TipoUsuario tipo
 ) {

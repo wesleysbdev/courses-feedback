@@ -20,13 +20,13 @@ public class SecurityContextProvider {
         }
 
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        UUID uuid = UUID.fromString(jwt.getSubject());
+        UUID id = UUID.fromString(jwt.getSubject());
         String nome = jwt.getClaimAsString("nome");
 
         String roleStr = jwt.getClaimAsString("role").replace("ROLE_", "");
         TipoUsuario tipo = TipoUsuario.valueOf(roleStr);
 
-        return new UsuarioAutenticado(uuid, nome, tipo);
+        return new UsuarioAutenticado(id, nome, tipo);
     }
 
 }

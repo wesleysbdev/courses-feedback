@@ -2,6 +2,7 @@ package br.com.fiap.feedback.matricula.domain.entity;
 
 import br.com.fiap.feedback.curso.domain.entity.Curso;
 import br.com.fiap.feedback.matricula.domain.enums.StatusMatricula;
+import br.com.fiap.feedback.matricula.domain.exception.MatriculaDadosInvalidosException;
 import br.com.fiap.feedback.shared.UuidV7;
 import br.com.fiap.feedback.usuario.domain.entity.Usuario;
 import br.com.fiap.feedback.usuario.domain.exception.UsuarioDadosInvalidosException;
@@ -29,15 +30,15 @@ public class Matricula {
 
     private static void validarDadosObrigatorios(Usuario aluno, Curso curso, StatusMatricula status) {
         if (aluno == null) {
-            throw new UsuarioDadosInvalidosException("O aluno é obrigatório.");
+            throw new MatriculaDadosInvalidosException("O aluno é obrigatório.");
         }
 
         if (curso == null) {
-            throw new UsuarioDadosInvalidosException("O curso é obrigatória.");
+            throw new MatriculaDadosInvalidosException("O curso é obrigatória.");
         }
 
         if (status == null) {
-            throw new UsuarioDadosInvalidosException("O status é obrigatório.");
+            throw new MatriculaDadosInvalidosException("O status é obrigatório.");
         }
     }
 

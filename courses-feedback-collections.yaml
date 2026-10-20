@@ -1,0 +1,561 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Courses feedback
+meta:
+  id: wrk_7fb2f0c60ce342bba68bcfe686702f42
+  created: 1791670176811
+  modified: 1791670176811
+  description: ""
+collection:
+  - url: http://localhost:8080/api/v1/autenticacao
+    name: Autenticacao Admin
+    meta:
+      id: req_7fcda7bd802b4e38bf7cc99834b37556
+      created: 1787835198907
+      modified: 1792067509372
+      isPrivate: false
+      description: ""
+      sortKey: -1787835198907
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "admin@email.com",
+        	"senha": "Admin@123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/v1/autenticacao
+    name: Autenticacao Professor
+    meta:
+      id: req_07f57370582a4d11ba9504eaada6f857
+      created: 1789422869371
+      modified: 1792532974328
+      isPrivate: false
+      description: ""
+      sortKey: -1787829089721
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "carlos.mendes@escola.com",
+        	"senha": "Admin@123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8080/api/v1/autenticacao
+    name: Autenticacao Aluno
+    meta:
+      id: req_a231a927b965458aa447e5ba6560aeca
+      created: 1792532992862
+      modified: 1792533014657
+      isPrivate: false
+      description: ""
+      sortKey: -1787828326072.75
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email": "jose@aluno.com",
+        	"senha": "Admin@123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - name: Usuários
+    meta:
+      id: fld_a5f90f5fb2ba40e591d1cccb4a86b113
+      created: 1787786325419
+      modified: 1792532749968
+      sortKey: -1787827562424.5
+      description: ""
+    children:
+      - url: http://localhost:8080/api/v1/usuarios
+        name: Cadastrar usuário
+        meta:
+          id: req_e13d9549e55e454b9f8cda55dbb36fb9
+          created: 1789416795421
+          modified: 1792097668226
+          isPrivate: false
+          description: ""
+          sortKey: -1781262258840.875
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Professor",
+            	"email": "professor2@email.com",
+            	"senha": "professor2",
+            	"tipo": "PROFESSOR23"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            description: ""
+            disabled: false
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios/01a12834-0de8-7c9e-9ab7-58d7e897262c
+        name: Atualizar usuário
+        meta:
+          id: req_097d5e68457348df98fa7a29de263c33
+          created: 1789417328779
+          modified: 1791925703629
+          isPrivate: false
+          description: ""
+          sortKey: -1781262258740.875
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "Usuário Professor",
+            	"email": "professor@email.com"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            description: ""
+            disabled: false
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios
+        name: Listar usuários
+        meta:
+          id: req_0e2e74fa5e9e4079a4e639ec38b9a129
+          created: 1789417437065
+          modified: 1791924713126
+          isPrivate: false
+          description: ""
+          sortKey: -1780796253874.4375
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios/01a12834-0de8-7c9e-9ab7-58d7e897262c
+        name: buscar usuários por id
+        meta:
+          id: req_73cb64cd07114224838b76b9cbcd742e
+          created: 1789417586722
+          modified: 1791676103485
+          isPrivate: false
+          description: ""
+          sortKey: -1780563251441.2188
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios/01a12834-0de8-7c9e-9ab7-58d7e897262c/inativar
+        name: Inativar usuário
+        meta:
+          id: req_0de81661f430446699b53b2c9e192b0b
+          created: 1791925100854
+          modified: 1791925117804
+          isPrivate: false
+          description: ""
+          sortKey: -1780446750224.6094
+        method: PATCH
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios/01a12834-0de8-7c9e-9ab7-58d7e897262c/ativar
+        name: Ativar usuário
+        meta:
+          id: req_5e08b930b7004b1bb49a32cef8b72b7e
+          created: 1791925141226
+          modified: 1791925149069
+          isPrivate: false
+          description: ""
+          sortKey: -1780388499616.3047
+        method: PATCH
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios/01a12837-212a-7cbc-85b9-88d967909e9a
+        name: Deletar usuário
+        meta:
+          id: req_223eb6e8eb97403f97895b61f87bbe1d
+          created: 1791925165516
+          modified: 1791925233861
+          isPrivate: false
+          description: ""
+          sortKey: -1780359374312.1523
+        method: DELETE
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/usuarios/01a12834-0de8-7c9e-9ab7-58d7e897262c/senha
+        name: Alterar senha
+        meta:
+          id: req_08383062fc124de3ad357ff12d3af768
+          created: 1791925464029
+          modified: 1791925634810
+          isPrivate: false
+          description: ""
+          sortKey: -1780417624920.457
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"novaSenha": "professor"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Cursos
+    meta:
+      id: fld_2857bd2336a4417789505cfc39c2b622
+      created: 1792529492508
+      modified: 1792530592967
+      sortKey: -1787826035128
+      description: ""
+    children:
+      - url: http://localhost:8080/api/v1/cursos
+        name: Listar cursos
+        meta:
+          id: req_7f9a6848fa964e1397d740574968a139
+          created: 1792530663654
+          modified: 1792530706164
+          isPrivate: false
+          description: ""
+          sortKey: -1792530599620
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/cursos/01a13d88-bab2-722a-be42-86d837120ee6
+        name: Listar cursos por id
+        meta:
+          id: req_6ef91eb81e6b4f8f9171cd4e400e5f78
+          created: 1792530909227
+          modified: 1792532355395
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481480.5
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Matriculas
+    meta:
+      id: fld_2296a4a43c404ecba622fb888f2092a4
+      created: 1792531123942
+      modified: 1792531123942
+      sortKey: -1787824507831.5
+      description: ""
+    children:
+      - url: http://localhost:8080/api/v1/matriculas
+        name: Listar matriculas
+        meta:
+          id: req_0b2b62d2e3884f8e966a13478038b461
+          created: 1792531123943
+          modified: 1792531189518
+          isPrivate: false
+          description: ""
+          sortKey: -1792530599620
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/matriculas/01a13d8d-9e3f-739f-9275-d4af524965e1
+        name: Listar matriculas por id
+        meta:
+          id: req_6016d90ee6f844eca261e406f6cdd76b
+          created: 1792531123944
+          modified: 1792532672978
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481480.5
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Feedbacks
+    meta:
+      id: fld_9b7d4bc49c9e438ba751bdde040e33cd
+      created: 1792532769172
+      modified: 1792532769172
+      sortKey: -1787823744183.25
+      description: ""
+    children:
+      - url: http://localhost:8080/api/v1/feedbacks/01a13d8d-9e3f-739f-9275-d4af524965e1
+        name: Listar feedbacks por id
+        meta:
+          id: req_4a9df3e8723f48d8acc4a1bdaf6f2812
+          created: 1792532769172
+          modified: 1792532803496
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481480.5
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/feedbacks
+        name: Listar feedbacks
+        meta:
+          id: req_b7c0e6d1703b4fc0b7f23b98a63d3ca0
+          created: 1792532769172
+          modified: 1792532796349
+          isPrivate: false
+          description: ""
+          sortKey: -1792530599620
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/feedbacks
+        name: Cadastrar feedback
+        meta:
+          id: req_79ead8ec41634633a519ef6daa12af23
+          created: 1792532872296
+          modified: 1792533828837
+          isPrivate: false
+          description: ""
+          sortKey: -1792530599720
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"matriculaId": "01a13d8e-248b-77bb-84e0-867799e9d5a9",
+            	"descricao": "Curso bacana, poderia ter mais exemplos, recomendo que melhore.",
+            	"nota": 3
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_a231a927b965458aa447e5ba6560aeca',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_eb37ad42683d4f2481208dd946166844
+    created: 1787786307021
+    modified: 1789604848500
+  cookies:
+    - id: f7809ad1-6114-4a0b-804b-1d57fdf37fc4
+      key: JSESSIONID
+      value: 0B72F2AF5F354ED711669B106114EE1E
+      domain: localhost
+      path: /
+      secure: false
+      httpOnly: true
+      hostOnly: true
+environments:
+  name: Base Environment
+  meta:
+    id: env_d00ef4cb6c81479bb6edd01ad636545d
+    created: 1787786307021
+    modified: 1787786307021
+    isPrivate: false

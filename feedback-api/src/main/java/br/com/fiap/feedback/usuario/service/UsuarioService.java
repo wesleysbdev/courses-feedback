@@ -31,7 +31,7 @@ public class UsuarioService {
     private final CodificadorDeSenha codificadorSenha;
 
     public List<UsuarioResponse> listarTodos(UsuarioAutenticado usuarioAutenticado) {
-        permiteApenasAdmin(usuarioAutenticado);
+        PermissaoValidator.permiteApenasAdmin(usuarioAutenticado);
         return repository.findByExcluidoFalse().stream().map(mapper::paraResponse).toList();
     }
 
@@ -41,12 +41,12 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponse> listarPorTipo(TipoUsuario tipoUsuario, UsuarioAutenticado usuarioAutenticado) {
-        permiteApenasAdmin(usuarioAutenticado);
+        PermissaoValidator.permiteApenasAdmin(usuarioAutenticado);
         return repository.findByTipo(tipoUsuario.toString()).stream().map(mapper::paraResponse).toList();
     }
 
     public UsuarioResponse cadastrar(UsuarioCadastroRequest request, UsuarioAutenticado usuarioAutenticado) {
-        permiteApenasAdmin(usuarioAutenticado);
+        PermissaoValidator.permiteApenasAdmin(usuarioAutenticado);
         var existenteComMesmoEmail = buscarPorEmail(request.email());
 
         if (existenteComMesmoEmail.isPresent()) {
@@ -83,7 +83,7 @@ public class UsuarioService {
 
     @Transactional
     public void ativarUsuario(UUID usuarioId, UsuarioAutenticado usuarioAutenticado) {
-        permiteApenasAdmin(usuarioAutenticado);
+        PermissaoValidator.permiteApenasAdmin(usuarioAutenticado);
         UsuarioModel usuarioEncontrado = encontrarPorId(usuarioId);
         Usuario usuario = mapper.paraEntidade(usuarioEncontrado);
         usuario.ativar();
@@ -93,7 +93,7 @@ public class UsuarioService {
 
     @Transactional
     public void inativarUsuario(UUID usuarioId, UsuarioAutenticado usuarioAutenticado) {
-        permiteApenasAdmin(usuarioAutenticado);
+        PermissaoValidator.permiteApenasAdmin(usuarioAutenticado);
         UsuarioModel usuarioEncontrado = encontrarPorId(usuarioId);
         Usuario usuario = mapper.paraEntidade(usuarioEncontrado);
         usuario.inativar();
@@ -103,7 +103,7 @@ public class UsuarioService {
 
     @Transactional
     public void excluirUsuario(UUID usuarioId, UsuarioAutenticado usuarioAutenticado) {
-        permiteApenasAdmin(usuarioAutenticado);
+        PermissaoValidator.permiteApenasAdmin(usuarioAutenticado);
         UsuarioModel usuarioEncontrado = encontrarPorId(usuarioId);
         Usuario usuario = mapper.paraEntidade(usuarioEncontrado);
         usuario.excluir();
@@ -122,13 +122,9 @@ public class UsuarioService {
     }
 
     private void permiteOProprioOuAdmin(UsuarioAutenticado usuarioAutenticado, UUID alvoUuid) {
-        if (usuarioAutenticado.tipo() != TipoUsuario.ADMINISTRADOR && !Objects.equals(usuarioAutenticado.uuid(), alvoUuid)) {
+        if (usuarioAutenticado.tipo() != TipoUsuario.ADMINISTRADOR && !Objects.equals(usuarioAutenticado.id(), alvoUuid)) {
             throw new UsuarioNaoAutorizadoException();
         }
-    }
-
-    private void permiteApenasAdmin(UsuarioAutenticado usuarioAutenticado) {
-        PermissaoValidator.verificarPermissao(usuarioAutenticado.tipo(), Set.of(TipoUsuario.ADMINISTRADOR));
     }
 
     private UsuarioModel encontrarPorId(UUID id) {

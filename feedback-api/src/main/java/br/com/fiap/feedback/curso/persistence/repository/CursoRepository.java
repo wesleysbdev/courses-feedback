@@ -4,6 +4,7 @@ import br.com.fiap.feedback.curso.persistence.model.CursoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface CursoRepository extends JpaRepository<CursoModel, UUID> {
@@ -11,4 +12,6 @@ public interface CursoRepository extends JpaRepository<CursoModel, UUID> {
     List<CursoModel> findByAtivoTrue();
 
     List<CursoModel> findByProfessorId(UUID professorId);
+
+    Optional<CursoModel> findByIdAndAtivoTrue(UUID cursoId);
 }

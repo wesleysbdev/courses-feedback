@@ -13,7 +13,7 @@ public class Feedback {
     private final String descricao;
     private final FeedbackAvaliacao avaliacao;
 
-    private Feedback(UUID id, Matricula matricula, String descricao, FeedbackAvaliacao avaliacao) {
+    public Feedback(UUID id, Matricula matricula, String descricao, FeedbackAvaliacao avaliacao) {
         validarDadosObrigatorios(matricula, descricao, avaliacao);
         this.id = id;
         this.matricula = matricula;

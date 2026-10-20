@@ -3,16 +3,13 @@ package br.com.fiap.feedback.usuario.web.controller;
 import br.com.fiap.feedback.autenticacao.domain.dto.UsuarioAutenticado;
 import br.com.fiap.feedback.infraestructure.security.SecurityContextProvider;
 import br.com.fiap.feedback.usuario.domain.dto.AlteracaoSenha;
-import br.com.fiap.feedback.usuario.domain.entity.Usuario;
-import br.com.fiap.feedback.usuario.persistence.model.UsuarioModel;
 import br.com.fiap.feedback.usuario.service.UsuarioService;
 import br.com.fiap.feedback.usuario.web.dto.AlterarSenhaRequest;
 import br.com.fiap.feedback.usuario.web.dto.UsuarioCadastroRequest;
 import br.com.fiap.feedback.usuario.web.dto.UsuarioEdicaoRequest;
 import br.com.fiap.feedback.usuario.web.dto.UsuarioResponse;
-import br.com.fiap.feedback.usuario.web.mapper.UsuarioMapper;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("usuarios")
-@AllArgsConstructor
+@RequestMapping("/usuarios")
+@RequiredArgsConstructor
 public class UsuarioController {
     private final UsuarioService service;
     private final SecurityContextProvider contextProvider;

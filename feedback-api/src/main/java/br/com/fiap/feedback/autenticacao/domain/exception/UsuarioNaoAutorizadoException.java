@@ -7,4 +7,8 @@ public class UsuarioNaoAutorizadoException extends RegraDeNegocioException {
     public UsuarioNaoAutorizadoException() {
         super("Usuário não tem permissão para realizar essa operação");
     }
+
+    public UsuarioNaoAutorizadoException(String message) {
+        super(message);
+    }
 }
