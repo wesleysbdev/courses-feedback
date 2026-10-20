@@ -14,7 +14,7 @@ public class Curso {
     private Usuario professor;
 
     public Curso(UUID id, String nome, String descricao, boolean ativo, Usuario professor) {
-        validarIdentificador(id);
+        UuidV7.validate(id);
         validarDadosObrigatorios(nome, descricao, professor);
         this.id = id;
         this.nome = nome;
@@ -25,17 +25,6 @@ public class Curso {
 
     public static Curso criar(String nome, String descricao, boolean ativo, Usuario professor) {
         return new Curso(UuidV7.generate(), nome, descricao, true, professor);
-    }
-
-    private static void validarIdentificador(UUID id) {
-        if (id == null) {
-            throw new UsuarioDadosInvalidosException("O objeto deve possuir uma identificação.");
-        }
-
-        if (!UuidV7.validate(id)) {
-            throw new UsuarioDadosInvalidosException("O identificador é inválido.");
-        }
-
     }
 
     private static void validarDadosObrigatorios(String nome, String descricao, Usuario professor) {

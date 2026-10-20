@@ -1,5 +1,7 @@
 package br.com.fiap.feedback.shared;
 
+import br.com.fiap.feedback.infraestructure.exception.RegraDeNegocioException;
+
 import java.security.SecureRandom;
 import java.util.UUID;
 
@@ -9,7 +11,8 @@ public final class UuidV7 {
     private static long lastTimestamp = 0L;
     private static int sequence = 0;
 
-    private UuidV7() { }
+    private UuidV7() {
+    }
 
     public static synchronized UUID generate() {
         long currentTimestamp = System.currentTimeMillis();
@@ -43,7 +46,17 @@ public final class UuidV7 {
         return new UUID(msb, lsb);
     }
 
-    public static boolean validate(UUID uuid) {
+    public static void validate(UUID uuid) {
+        if (uuid == null) {
+            throw new RegraDeNegocioException("O indentificador do objeto não existe.");
+        }
+
+        if (!UuidV7.isValid(uuid)) {
+            throw new RegraDeNegocioException("O identificador é inválido.");
+        }
+    }
+
+    public static boolean isValid(UUID uuid) {
         return uuid.version() == 7;
     }
 }

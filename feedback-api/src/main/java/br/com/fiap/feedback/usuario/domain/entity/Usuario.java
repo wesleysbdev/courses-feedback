@@ -5,7 +5,6 @@ import br.com.fiap.feedback.usuario.domain.enums.TipoUsuario;
 import br.com.fiap.feedback.usuario.domain.exception.UsuarioDadosInvalidosException;
 import br.com.fiap.feedback.usuario.domain.vo.Email;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public class Usuario {
@@ -19,7 +18,7 @@ public class Usuario {
     private TipoUsuario tipo;
 
     public Usuario(UUID id, String nome, Email email, String senha, boolean ativo, boolean excluido, TipoUsuario tipo) {
-        validarIdentificador(id);
+        UuidV7.validate(id);
         validarDadosObrigatorios(nome, email, senha, tipo);
         this.id = id;
         this.nome = nome;
@@ -32,17 +31,6 @@ public class Usuario {
 
     public static Usuario criar(String nome, Email email, String senha, TipoUsuario tipo) {
         return new Usuario(UuidV7.generate(), nome, email, senha, true, false, tipo);
-    }
-
-    private static void validarIdentificador(UUID id) {
-        if (id == null) {
-            throw new UsuarioDadosInvalidosException("O objeto deve possuir uma identificação.");
-        }
-
-        if (!UuidV7.validate(id)) {
-            throw new UsuarioDadosInvalidosException("O identificador é inválido.");
-        }
-
     }
 
     private static void validarDadosObrigatorios(String nome, Email email, String senha, TipoUsuario tipo) {

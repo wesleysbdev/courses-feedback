@@ -15,7 +15,7 @@ public class Matricula {
     private StatusMatricula status;
 
     public Matricula(UUID id, Usuario aluno, Curso curso, StatusMatricula status) {
-        validarIdentificador(id);
+        UuidV7.validate(id);
         validarDadosObrigatorios(aluno, curso, status);
         this.id = id;
         this.aluno = aluno;
@@ -25,17 +25,6 @@ public class Matricula {
 
     public static Matricula criar(Usuario aluno, Curso curso) {
         return new Matricula(UuidV7.generate(), aluno, curso, StatusMatricula.EM_ANDAMENTO);
-    }
-
-    private static void validarIdentificador(UUID id) {
-        if (id == null) {
-            throw new UsuarioDadosInvalidosException("O objeto deve possuir uma identificação.");
-        }
-
-        if (!UuidV7.validate(id)) {
-            throw new UsuarioDadosInvalidosException("O identificador é inválido.");
-        }
-
     }
 
     private static void validarDadosObrigatorios(Usuario aluno, Curso curso, StatusMatricula status) {
