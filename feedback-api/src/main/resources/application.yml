@@ -8,9 +8,9 @@ spring:
 
   security:
     jwt:
-      issuer: "feedback-api"
+      issuer: ${JWT_ISSUER:feedback-api}
       secret-key: ${JWT_SECRET:2d57500fd645f84103d0fb2f277b629d1d7a3ecd8fc9774fdd345bddbe2eab5f}
-      expiration-seconds: 3600
+      expiration-seconds: ${JWT_EXPIRATION:3600}
 
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/courses-feedback}
@@ -30,6 +30,12 @@ spring:
 
   flyway:
     enabled: true
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:feedback}
+    password: ${RABBITMQ_PASSWORD:feedback}
 
 logging:
   level:
