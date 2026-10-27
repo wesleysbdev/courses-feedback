@@ -63,6 +63,23 @@ services:
     networks:
       - courses-feedback-network
 
+  function-notification:
+    build:
+      context: ./function-notification
+      dockerfile: Dockerfile
+    container_name: courses-feedback-notification
+    restart: unless-stopped
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+    networks:
+      - courses-feedback-network
+
 volumes:
   rabbitmq_data:
   postgres_data:

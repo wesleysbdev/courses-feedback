@@ -1,0 +1,21 @@
+# Conexão com o RabbitMQ
+rabbitmq-host: ${RABBITMQ_HOST:localhost}
+rabbitmq-port: ${RABBITMQ_PORT:5672}
+rabbitmq-username: ${RABBITMQ_USERNAME:feedback}
+rabbitmq-password: ${RABBITMQ_PASSWORD:feedback}
+
+# Canal de entrada para os eventos de feedback
+mp:
+  messaging:
+    incoming:
+      feedback-notificacoes:
+        connector: smallrye-rabbitmq
+        # Exchange existente
+        exchange:
+          name: feedback.eventos
+          declare: false
+        # Fila consumida pela função
+        queue:
+          name: notificacao.feedback.ruim
+          declare: false
+        routing-keys: feedback.ruim
