@@ -2,10 +2,12 @@ package br.com.fiap.feedback.feedback.service;
 
 import br.com.fiap.feedback.autenticacao.domain.dto.UsuarioAutenticado;
 import br.com.fiap.feedback.feedback.domain.entity.Feedback;
+import br.com.fiap.feedback.feedback.domain.enums.FeedbackClassificacao;
 import br.com.fiap.feedback.feedback.domain.exception.FeedbackDadosInvalidosException;
 import br.com.fiap.feedback.feedback.domain.exception.FeedbackNaoEncontradoException;
 import br.com.fiap.feedback.feedback.persistence.model.FeedbackModel;
 import br.com.fiap.feedback.feedback.persistence.repository.FeedbackRepository;
+import br.com.fiap.feedback.feedback.service.notificacao.NotificacaoService;
 import br.com.fiap.feedback.feedback.web.dto.FeedbackRequest;
 import br.com.fiap.feedback.feedback.web.dto.FeedbackResponse;
 import br.com.fiap.feedback.feedback.web.mapper.FeedbackMapper;
@@ -29,6 +31,7 @@ public class FeedbackService {
     private final FeedbackMapper mapper;
     private final MatriculaRepository matriculaRepository;
     private final MatriculaMapper matriculaMapper;
+    private final NotificacaoService notificacaoService;
 
     @Transactional
     public FeedbackResponse criar(FeedbackRequest request, UsuarioAutenticado usuarioAutenticado) {
@@ -44,7 +47,13 @@ public class FeedbackService {
         Feedback feedback = Feedback.criar(matriculaMapper.paraEntidade(matriculaModel), request.descricao(), request.nota());
         FeedbackModel model = mapper.paraModelo(feedback);
 
-        return mapper.paraResponse(repository.save(model));
+        FeedbackResponse response = mapper.paraResponse(repository.save(model));
+
+        if (response.avaliacao().getClassificacao() == FeedbackClassificacao.RUIM) {
+            notificacaoService.notificar(mapper.paraNotificacao(feedback));
+        }
+
+        return response;
     }
 
     @Transactional(readOnly = true)
