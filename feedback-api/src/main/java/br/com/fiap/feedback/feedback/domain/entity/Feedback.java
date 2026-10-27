@@ -21,7 +21,7 @@ public class Feedback {
         this.avaliacao = avaliacao;
     }
 
-    public static Feedback criar(Matricula matricula, String descricao, int nota) {
+    public static Feedback criar(Matricula matricula, String descricao, Integer nota) {
         return new Feedback(UuidV7.generate(), matricula, descricao, new FeedbackAvaliacao(nota));
     }
 

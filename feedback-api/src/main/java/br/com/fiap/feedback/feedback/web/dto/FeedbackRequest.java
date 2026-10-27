@@ -15,6 +15,6 @@ public record FeedbackRequest(
         @NotNull
         @Min(0)
         @Max(10)
-        int nota
+        Integer nota
 ) {
 }

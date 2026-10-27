@@ -11,6 +11,7 @@ import br.com.fiap.feedback.usuario.web.dto.UsuarioResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class UsuarioController {
     private final UsuarioService service;
     private final SecurityContextProvider contextProvider;
 
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponse cadastrar(@RequestBody @Valid UsuarioCadastroRequest request) {
