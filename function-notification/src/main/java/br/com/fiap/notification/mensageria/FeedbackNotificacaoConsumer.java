@@ -30,10 +30,12 @@ public class FeedbackNotificacaoConsumer {
         validar(evento);
 
         LOG.infof(
-                "Evento de feedback consumido. id=%s, versao=%d, nota=%d",
+                "Feedback consumido. feedbackId=%s, nota=%d, classificação=%s, aluno=%s, curso=%s",
                 evento.feedbackId(),
-                evento.versao(),
-                evento.avaliacao().nota()
+                evento.avaliacao().nota(),
+                evento.avaliacao().getClassificacao(),
+                evento.matricula().aluno().nome(),
+                evento.matricula().curso().nome()
         );
     }
 
@@ -72,9 +74,18 @@ public class FeedbackNotificacaoConsumer {
         }
 
         if (evento.matricula() == null
-                || evento.matricula().isNull()
-                || !evento.matricula().isObject()) {
-            throw new IllegalArgumentException("Os dados da matrícula são obrigatórios.");
+                || evento.matricula().id() == null
+                || evento.matricula().aluno() == null
+                || evento.matricula().curso() == null
+                || evento.matricula().status() == null) {
+            throw new IllegalArgumentException("Os dados da matrícula são inválidos.");
+        }
+
+        if (evento.matricula().aluno().id() == null
+                || evento.matricula().curso().id() == null
+                || evento.matricula().curso().professor() == null
+                || evento.matricula().curso().professor().id() == null) {
+            throw new IllegalArgumentException("Os dados do aluno, curso ou professor são inválidos.");
         }
     }
 }
