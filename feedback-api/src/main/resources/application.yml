@@ -13,7 +13,7 @@ spring:
       expiration-seconds: ${JWT_EXPIRATION:3600}
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/courses-feedback}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/courses-feedback?options=-c%20timezone=America/Sao_Paulo}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -42,3 +42,7 @@ logging:
     org.hibernate.orm.results: DEBUG
     org.hibernate.SQL: DEBUG
     org.springframework.security: TRACE
+
+app:
+  security:
+    internal-token: ${INTERNAL_SERVICE_TOKEN:aef48bf9-7f41-4df0-a3f4-6a52930f7471a0e3845f-8280-4882-b1bd-dc9f4e28ddae}
