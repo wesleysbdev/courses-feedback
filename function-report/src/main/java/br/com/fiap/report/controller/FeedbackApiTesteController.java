@@ -2,6 +2,8 @@ package br.com.fiap.report.controller;
 
 import br.com.fiap.report.client.FeedbackApiClient;
 import br.com.fiap.report.dto.response.ResumoFeedbackDiarioResponse;
+import br.com.fiap.report.redis.ResumoFeedbackRedisRepository;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -18,9 +20,18 @@ public class FeedbackApiTesteController {
     @RestClient
     FeedbackApiClient feedbackApiClient;
 
+    private final ResumoFeedbackRedisRepository repository;
+
+    @Inject
+    public FeedbackApiTesteController(ResumoFeedbackRedisRepository repository) {
+        this.repository = repository;
+    }
+
     @GET
     @Path("/{data}")
     public ResumoFeedbackDiarioResponse buscarResumoDiario(@PathParam("data") LocalDate data) {
-        return feedbackApiClient.buscarResumoDiario(data);
+        var resumo = feedbackApiClient.buscarResumoDiario(data);
+        repository.salvar(resumo);
+        return repository.buscarPorData(data).orElseThrow(() -> new RuntimeException("Erro ao buscar resumo diario"));
     }
 }

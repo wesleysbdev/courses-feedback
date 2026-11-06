@@ -1,10 +1,15 @@
 quarkus:
   http:
     port: 8081
+
   rest-client:
     feedback-api:
       url: ${FEEDBACK_API_URL:http://localhost:8080}
       scope: jakarta.inject.Singleton
+
+  redis:
+    hosts: ${REDIS_HOST:redis://localhost:6379}
+    password: ${REDIS_PASSWORD:Redis@123}
 
 app:
   security:
