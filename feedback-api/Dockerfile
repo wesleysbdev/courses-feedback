@@ -4,13 +4,13 @@ WORKDIR /app
 
 COPY . .
 
-RUN mvn -pl feedback-api -am clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
-COPY --from=builder /app/feedback-api/target/*.jar app.jar
+COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
 

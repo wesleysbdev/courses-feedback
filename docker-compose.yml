@@ -21,6 +21,23 @@ services:
     networks:
       - courses-feedback-network
 
+  redis:
+    image: redis:7-alpine
+    container_name: courses-feedback-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli -a ${REDIS_PASSWORD} ping | grep -q PONG" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - courses-feedback-network
+
   rabbitmq:
     image: rabbitmq:4-management
     container_name: rabbitmq
@@ -41,9 +58,9 @@ services:
     networks:
       - courses-feedback-network
 
-  app:
+  feedback-api:
     build:
-      context: .
+      context: ./feedback-api
       dockerfile: Dockerfile
     container_name: courses-feedback-app
     restart: unless-stopped
@@ -62,6 +79,7 @@ services:
       SPRING_RABBITMQ_PORT: ${RABBITMQ_PORT}
       SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
       SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN}
       TZ: ${TZ}
     networks:
       - courses-feedback-network
@@ -83,9 +101,30 @@ services:
     networks:
       - courses-feedback-network
 
+  function-report:
+    build:
+      context: ./function-report
+      dockerfile: Dockerfile
+    container_name: courses-feedback-report
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      FEEDBACK_API_URL: http://feedback-api:8080
+      INTERNAL_SERVICE_TOKEN: ${INTERNAL_SERVICE_TOKEN}
+      QUARKUS_REDIS_HOSTS: redis://redis:6379
+      QUARKUS_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      TZ: ${TZ}
+    networks:
+      - courses-feedback-network
+
 volumes:
   rabbitmq_data:
   postgres_data:
+  redis_data:
 
 networks:
   courses-feedback-network:
