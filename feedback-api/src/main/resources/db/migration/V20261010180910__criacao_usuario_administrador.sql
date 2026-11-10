@@ -6,7 +6,7 @@ VALUES
         ('PROFESSOR', '01a13d81-c7b9-76b8-9803-fc6c87796f7c', true, now(), 'carlos.mendes@escola.com', false, 'Carlos Mendes', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
         ('PROFESSOR', '01a13d82-0c53-752b-b6df-480f654add4e', true, now(), 'fernanda.oliveira@escola.com', false, 'Fernanda Oliveira', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
         ('ALUNO', '01a13d8b-74c4-748f-99ba-dfd18755431f', true, now(), 'jose@aluno.com', false, 'José Aluno', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
-        ('ALUNO', '01a13d8b-8fbf-7169-9481-ba1f50827bd1', true, now(), 'elias@aluno.com', false, 'Elias Aluno', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y');
+        ('ALUNO', '01a13d8b-8fbf-7169-9481-ba1f50827bd1', true, now(), 'elias@aluno.com', false, 'Elias Aluno', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
         ('ALUNO', '01a14100-1111-7111-8111-111111111101', true, now(), 'ana.souza@aluno.com', false, 'Ana Souza', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
         ('ALUNO', '01a14100-2222-7222-8222-222222222202', true, now(), 'bruno.lima@aluno.com', false, 'Bruno Lima', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
         ('ALUNO', '01a14100-3333-7333-8333-333333333303', true, now(), 'camila.rocha@aluno.com', false, 'Camila Rocha', '$2a$12$84dH.i8Qv6FSMYcuVLkVJeZAinR4W/9227.pCFFUBk657RewS7l2y'),
