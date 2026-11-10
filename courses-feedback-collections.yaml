@@ -76,7 +76,7 @@ collection:
     meta:
       id: req_a231a927b965458aa447e5ba6560aeca
       created: 1792532992862
-      modified: 1792533014657
+      modified: 1793074926866
       isPrivate: false
       description: ""
       sortKey: -1787828326072.75
@@ -404,7 +404,7 @@ collection:
         meta:
           id: req_0b2b62d2e3884f8e966a13478038b461
           created: 1792531123943
-          modified: 1792531189518
+          modified: 1793073142579
           isPrivate: false
           description: ""
           sortKey: -1792530599620
@@ -508,17 +508,17 @@ collection:
         meta:
           id: req_79ead8ec41634633a519ef6daa12af23
           created: 1792532872296
-          modified: 1792533828837
+          modified: 1793076144886
           isPrivate: false
           description: ""
           sortKey: -1792530599720
         method: POST
         body:
           mimeType: application/json
-          text: >-
+          text: |-
             {
-            	"matriculaId": "01a13d8e-248b-77bb-84e0-867799e9d5a9",
-            	"descricao": "Curso bacana, poderia ter mais exemplos, recomendo que melhore.",
+            	"matriculaId": "01a13d8d-9e3f-739f-9275-d4af524965e1",
+            	"descricao": "Curso muito curto e com poucos exemplos.",
             	"nota": 3
             }
         headers:
@@ -527,6 +527,145 @@ collection:
           - name: Authorization
             value: Bearer {% response 'body', 'req_a231a927b965458aa447e5ba6560aeca',
               'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "http://localhost:8080/api/v1/internal/feedbacks/agregados-diarios/2026-11\
+          -03 "
+        name: relatório diário
+        meta:
+          id: req_84004961f1f24fe69395bfeab279c977
+          created: 1793826640622
+          modified: 1794270033681
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481380.5
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/api/v1/feedbacks/relatorios/inicio/2026-11-01/fim/2026-11-03
+        name: relatório semanal
+        meta:
+          id: req_93e443cbc7e04f10ba868179f275aea1
+          created: 1794338240701
+          modified: 1794340213776
+          isPrivate: false
+          description: ""
+          sortKey: -1790268422360.75
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_7fcda7bd802b4e38bf7cc99834b37556',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: false
+          - name: Authorization
+            value: Bearer {% response 'body', 'req_a231a927b965458aa447e5ba6560aeca',
+              'b64::JC50b2tlbg==::46b', 'never', 60 %}
+            description: ""
+            disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: function-report
+    meta:
+      id: fld_c64695673c3344d0b688b269600cb39c
+      created: 1793826640621
+      modified: 1793911104085
+      sortKey: -1787823362359.125
+      description: ""
+    children:
+      - url: http://localhost:8081/teste/feedback-api/2026-11-03
+        name: Teste conexao feedback-api
+        meta:
+          id: req_d3067968d43d4a05b4c20f932c5ccb3a
+          created: 1793826640622
+          modified: 1794270134826
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481480.5
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/teste/redis
+        name: Teste conexao Redis
+        meta:
+          id: req_841935df77f14c66942b2dfbb3afd711
+          created: 1793914613431
+          modified: 1794270138694
+          isPrivate: false
+          description: ""
+          sortKey: -1793914613431
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/teste/consolidacao/2026-11-01
+        name: Consolidacao diaria teste
+        meta:
+          id: req_a3231516d3ee4fc0b1424a05f732e535
+          created: 1794270111969
+          modified: 1794319044244
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481430.5
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8081/feedbacks/relatorio/inicio/2026-11-01/fim/2026-11-03
+        name: buscar relatório
+        meta:
+          id: req_61f860c68f994202aa7a1428ca8411a1
+          created: 1794318832107
+          modified: 1794326179459
+          isPrivate: false
+          description: ""
+          sortKey: -1791022481405.5
+        method: GET
+        headers:
+          - name: X-Internal-Service-Token
+            value: aef48bf9-7f41-4df0-a3f4-6a52930f7471a0e3845f-8280-4882-b1bd-dc9f4e28ddae
             description: ""
             disabled: false
         settings:

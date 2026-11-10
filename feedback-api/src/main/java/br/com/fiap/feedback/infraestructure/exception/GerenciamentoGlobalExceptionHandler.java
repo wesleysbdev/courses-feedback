@@ -1,11 +1,12 @@
 package br.com.fiap.feedback.infraestructure.exception;
 
+import br.com.fiap.feedback.feedback.integracao.dto.ErroIntegracaoResponse;
+import br.com.fiap.feedback.feedback.integracao.exception.FunctionReportIntegracaoException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.oauth2.jwt.JwtEncodingException;
 import org.springframework.validation.FieldError;
@@ -83,12 +84,17 @@ public class GerenciamentoGlobalExceptionHandler {
 
     @ExceptionHandler(AuthorizationDeniedException.class)
     public ResponseEntity<ErroResposta> handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
-        return montarResposta(HttpStatus.UNAUTHORIZED, ex.getMessage());
+        return montarResposta(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler(JwtEncodingException.class)
     public ResponseEntity<ErroResposta> handleJwtEncodingException(JwtEncodingException ex) {
         return montarResposta(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    @ExceptionHandler(FunctionReportIntegracaoException.class)
+    public ResponseEntity<ErroIntegracaoResponse> tratarErroIntegracao(FunctionReportIntegracaoException exception) {
+        return ResponseEntity.status(exception.getStatus()).body(exception.getErro());
     }
 
     private ResponseEntity<ErroResposta> montarResposta(HttpStatusCode httpStatus, String message) {

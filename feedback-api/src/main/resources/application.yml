@@ -44,5 +44,7 @@ logging:
     org.springframework.security: TRACE
 
 app:
-  security:
-    internal-token: ${INTERNAL_SERVICE_TOKEN:aef48bf9-7f41-4df0-a3f4-6a52930f7471a0e3845f-8280-4882-b1bd-dc9f4e28ddae}
+  clients:
+    function-report:
+      url: ${FUNCTION_REPORT_URL:http://localhost:8081}
+      internal-token: ${INTERNAL_SERVICE_TOKEN:aef48bf9-7f41-4df0-a3f4-6a52930f7471a0e3845f-8280-4882-b1bd-dc9f4e28ddae}

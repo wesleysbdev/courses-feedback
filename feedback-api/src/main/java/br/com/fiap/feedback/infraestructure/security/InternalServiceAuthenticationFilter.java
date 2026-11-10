@@ -23,7 +23,7 @@ public class InternalServiceAuthenticationFilter extends OncePerRequestFilter {
     private static final String INTERNAL_TOKEN_HEADER = "X-Internal-Service-Token";
     private static final String SERVICE_NAME = "function-report";
 
-    @Value("${app.security.internal-token}")
+    @Value("${app.clients.function-report.internal-token}")
     private String internalToken;
 
     @Value("${spring.mvc.servlet.path}")

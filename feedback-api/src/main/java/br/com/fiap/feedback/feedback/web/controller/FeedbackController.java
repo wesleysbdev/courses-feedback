@@ -1,15 +1,19 @@
 package br.com.fiap.feedback.feedback.web.controller;
 
 import br.com.fiap.feedback.autenticacao.domain.dto.UsuarioAutenticado;
+import br.com.fiap.feedback.feedback.integracao.dto.FeedbackRelatorioResponse;
 import br.com.fiap.feedback.feedback.service.FeedbackService;
 import br.com.fiap.feedback.feedback.web.dto.FeedbackRequest;
 import br.com.fiap.feedback.feedback.web.dto.FeedbackResponse;
 import br.com.fiap.feedback.infraestructure.security.SecurityContextProvider;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,5 +42,17 @@ public class FeedbackController {
     @ResponseStatus(HttpStatus.OK)
     public FeedbackResponse buscarPorId(@PathVariable UUID id) {
         return service.buscarPorId(id);
+    }
+
+    @GetMapping("/relatorios/inicio/{inicio}/fim/{fim}")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    @ResponseStatus(HttpStatus.OK)
+    public FeedbackRelatorioResponse gerarRelatorio(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
+
+        var usuario = contextProvider.obterUsuarioAutenticado();
+
+        return service.gerarRelatorio(usuario, inicio, fim);
     }
 }

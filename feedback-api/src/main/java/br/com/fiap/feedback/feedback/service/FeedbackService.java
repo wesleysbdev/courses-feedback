@@ -5,6 +5,8 @@ import br.com.fiap.feedback.feedback.domain.entity.Feedback;
 import br.com.fiap.feedback.feedback.domain.enums.FeedbackClassificacao;
 import br.com.fiap.feedback.feedback.domain.exception.FeedbackDadosInvalidosException;
 import br.com.fiap.feedback.feedback.domain.exception.FeedbackNaoEncontradoException;
+import br.com.fiap.feedback.feedback.integracao.FunctionReportClient;
+import br.com.fiap.feedback.feedback.integracao.dto.FeedbackRelatorioResponse;
 import br.com.fiap.feedback.feedback.persistence.model.FeedbackModel;
 import br.com.fiap.feedback.feedback.persistence.repository.FeedbackRepository;
 import br.com.fiap.feedback.feedback.service.notificacao.NotificacaoService;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +35,7 @@ public class FeedbackService {
     private final MatriculaRepository matriculaRepository;
     private final MatriculaMapper matriculaMapper;
     private final NotificacaoService notificacaoService;
+    private final FunctionReportClient functionReportClient;
 
     @Transactional
     public FeedbackResponse criar(FeedbackRequest request, UsuarioAutenticado usuarioAutenticado) {
@@ -68,5 +72,10 @@ public class FeedbackService {
 
     private FeedbackModel encontrarPorId(UUID id) {
         return repository.findById(id).orElseThrow(() -> new FeedbackNaoEncontradoException());
+    }
+
+    public FeedbackRelatorioResponse gerarRelatorio(UsuarioAutenticado usuario, LocalDate inicio, LocalDate fim) {
+        PermissaoValidator.permiteApenasAdmin(usuario);
+        return functionReportClient.gerarRelatorio(inicio, fim);
     }
 }
