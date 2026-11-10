@@ -12,7 +12,7 @@ public class InternalServiceAuthFilter implements ClientRequestFilter {
     private static final String INTERNAL_TOKEN_HEADER = "X-Internal-Service-Token";
 
     @ConfigProperty(name = "app.security.internal-token")
-    String internalToken;
+    private String internalToken;
 
     @Override
     public void filter(ClientRequestContext requestContext) {
