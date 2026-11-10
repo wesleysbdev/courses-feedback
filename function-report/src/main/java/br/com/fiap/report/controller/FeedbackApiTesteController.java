@@ -20,18 +20,9 @@ public class FeedbackApiTesteController {
     @RestClient
     FeedbackApiClient feedbackApiClient;
 
-    private final ResumoFeedbackRedisRepository repository;
-
-    @Inject
-    public FeedbackApiTesteController(ResumoFeedbackRedisRepository repository) {
-        this.repository = repository;
-    }
-
     @GET
     @Path("/{data}")
     public ResumoFeedbackDiarioResponse buscarResumoDiario(@PathParam("data") LocalDate data) {
-        var resumo = feedbackApiClient.buscarResumoDiario(data);
-        repository.salvar(resumo);
-        return repository.buscarPorData(data).orElseThrow(() -> new RuntimeException("Erro ao buscar resumo diario"));
+        return feedbackApiClient.buscarResumoDiario(data);
     }
 }
