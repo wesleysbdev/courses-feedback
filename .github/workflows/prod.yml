@@ -40,10 +40,52 @@ jobs:
           docker push inovahfiap/courses_feedback:latest
           docker push inovahfiap/courses_feedback:${{ github.sha }}
 
+  
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
       - name: Deploy via SSH
-        run: echo "Deploy SSH será configurado na próxima etapa."
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
+          JPA_DDL_AUTO: ${{ secrets.JPA_DDL_AUTO }}
+          INTERNAL_SERVICE_TOKEN: ${{ secrets.INTERNAL_SERVICE_TOKEN }}
+
+        run: |
+          set -euo pipefail
+
+          # Prepara a chave SSH e valida a identidade do servidor.
+          install -m 600 /dev/null "$RUNNER_TEMP/deploy_key"
+          printf '%s\n' "$EC2_SSH_PRIVATE_KEY" > "$RUNNER_TEMP/deploy_key"
+
+          install -m 600 /dev/null "$RUNNER_TEMP/known_hosts"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/known_hosts"
+
+          # Envia as variáveis para o script de deploy da EC2.
+          {
+            printf 'DB_NAME=%s\n' "$DB_NAME"
+            printf 'DB_USERNAME=%s\n' "$DB_USERNAME"
+            printf 'DB_PASSWORD=%s\n' "$DB_PASSWORD"
+            printf 'JWT_ISSUER=%s\n' "$JWT_ISSUER"
+            printf 'JWT_SECRET=%s\n' "$JWT_SECRET"
+            printf 'JWT_EXPIRATION=%s\n' "$JWT_EXPIRATION"
+            printf 'JPA_DDL_AUTO=%s\n' "$JPA_DDL_AUTO"
+            printf 'FUNCTION_REPORT_URL=%s\n' 'http://localhost:8081'
+            printf 'INTERNAL_SERVICE_TOKEN=%s\n' "$INTERNAL_SERVICE_TOKEN"
+          } | ssh \
+            -i "$RUNNER_TEMP/deploy_key" \
+            -o IdentitiesOnly=yes \
+            -o UserKnownHostsFile="$RUNNER_TEMP/known_hosts" \
+            -o StrictHostKeyChecking=yes \
+            "courses-deploy@$EC2_HOST"
