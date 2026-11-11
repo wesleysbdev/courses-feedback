@@ -56,7 +56,6 @@ WHERE u.tipo = 'ALUNO';
 
 
 -- FEEDBACKS
-
 INSERT INTO public.feedback (id, matricula_id, descricao, nota, criado_em)
 SELECT 
     gen_random_uuid() AS id,
