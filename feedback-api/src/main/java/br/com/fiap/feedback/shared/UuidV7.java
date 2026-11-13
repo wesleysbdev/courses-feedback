@@ -51,9 +51,9 @@ public final class UuidV7 {
             throw new RegraDeNegocioException("O indentificador do objeto não existe.");
         }
 
-        if (!UuidV7.isValid(uuid)) {
-            throw new RegraDeNegocioException("O identificador é inválido.");
-        }
+//        if (!UuidV7.isValid(uuid)) {
+//            throw new RegraDeNegocioException("O identificador é inválido.");
+//        }
     }
 
     public static boolean isValid(UUID uuid) {
