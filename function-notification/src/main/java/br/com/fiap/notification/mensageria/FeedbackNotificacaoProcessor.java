@@ -5,26 +5,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
 import java.io.IOException;
 
 @ApplicationScoped
-public class FeedbackNotificacaoConsumer {
+public class FeedbackNotificacaoProcessor {
 
-    private static final Logger LOG = Logger.getLogger(FeedbackNotificacaoConsumer.class);
+    private static final Logger LOG =
+            Logger.getLogger(FeedbackNotificacaoProcessor.class);
+
     private final ObjectMapper objectMapper;
 
     @Inject
-    public FeedbackNotificacaoConsumer(ObjectMapper objectMapper) {
+    public FeedbackNotificacaoProcessor(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    @Incoming("feedback-notificacoes")
-    public void consumir(byte[] payload) {
-        LOG.info("Mensagem recebida do RabbitMQ.");
-
+    public void processar(byte[] payload) {
         FeedbackNotificacaoEvento evento = desserializar(payload);
 
         validar(evento);
@@ -41,9 +39,14 @@ public class FeedbackNotificacaoConsumer {
 
     private FeedbackNotificacaoEvento desserializar(byte[] payload) {
         try {
-            return objectMapper.readValue(payload, FeedbackNotificacaoEvento.class);
+            return objectMapper.readValue(
+                    payload,
+                    FeedbackNotificacaoEvento.class
+            );
         } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("Não foi possível interpretar o evento de feedback.", e);
+            throw new IllegalArgumentException(
+                    "Não foi possível interpretar o evento de feedback.", e
+            );
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
