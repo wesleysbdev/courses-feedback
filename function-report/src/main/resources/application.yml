@@ -9,9 +9,12 @@ quarkus:
 
   redis:
     hosts: ${REDIS_HOST:redis://localhost:6379}
-    password: ${REDIS_PASSWORD:Redis@123}
+    password: ${REDIS_PASSWORD}
+    tls:
+      enabled: ${REDIS_TLS_ENABLED:false}
+      hostname-verification-algorithm: HTTPS
 
 app:
   security:
-    internal-token: ${INTERNAL_SERVICE_TOKEN:aef48bf9-7f41-4df0-a3f4-6a52930f7471a0e3845f-8280-4882-b1bd-dc9f4e28ddae}
+    internal-token: ${INTERNAL_SERVICE_TOKEN}
     maximo-dias-relatorio: 30

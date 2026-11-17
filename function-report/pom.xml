@@ -84,9 +84,8 @@
 
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-scheduler</artifactId>
+            <artifactId>quarkus-amazon-lambda-http</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
