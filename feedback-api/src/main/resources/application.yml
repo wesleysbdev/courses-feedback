@@ -47,6 +47,9 @@ logging:
     org.springframework.amqp.rabbit.connection: DEBUG
 
 app:
+  messaging:
+    provider: ${MESSAGING_PROVIDER:rabbitmq}
+    queue-name: ${SQS_FEEDBACK_RUIM_QUEUE:feedback-ruim-queue}
   clients:
     function-report:
       url: ${FUNCTION_REPORT_URL:http://localhost:8081}

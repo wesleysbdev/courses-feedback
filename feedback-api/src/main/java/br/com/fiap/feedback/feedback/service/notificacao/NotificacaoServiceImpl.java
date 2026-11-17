@@ -1,7 +1,7 @@
 package br.com.fiap.feedback.feedback.service.notificacao;
 
 import br.com.fiap.feedback.feedback.web.dto.FeedbackNotificacao;
-import br.com.fiap.feedback.infraestructure.mensageria.RabbitMqConfig;
+import br.com.fiap.feedback.infraestructure.mensageria.rabbitmq.RabbitMqConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificacaoServiceImpl implements NotificacaoService {
 
-    private final RabbitTemplate rabbitTemplate;
+    private final MessagePublisher messagePublisher;
 
     @Override
     public void notificar(FeedbackNotificacao notificacao) {
-        rabbitTemplate.convertAndSend(
-                RabbitMqConfig.EXCHANGE,
-                RabbitMqConfig.ROUTING_KEY,
+        messagePublisher.publish(
+                MessagingDestination.FEEDBACK_RUIM,
                 notificacao
         );
     }

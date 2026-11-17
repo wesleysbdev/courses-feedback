@@ -1,4 +1,4 @@
-package br.com.fiap.feedback.infraestructure.mensageria;
+package br.com.fiap.feedback.infraestructure.mensageria.rabbitmq;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -6,10 +6,17 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(
+        prefix = "app.messaging",
+        name = "provider",
+        havingValue = "rabbitmq",
+        matchIfMissing = true
+)
 public class RabbitMqConfig {
 
     public static final String EXCHANGE = "feedback.eventos";
