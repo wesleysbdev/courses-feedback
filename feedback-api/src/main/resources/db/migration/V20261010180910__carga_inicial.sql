@@ -36,13 +36,6 @@ VALUES
         ('01a14200-0010-7010-8010-000000000010', 'DevOps e Integração Contínua (CI/CD)', 'Automação de pipelines de build, testes e deploy utilizando GitHub Actions.', '01a13d82-0c53-752b-b6df-480f654add4e', TRUE, now());
 
 -- MATRICULAS
-
--- INSERT INTO matricula (id, aluno_id, curso_id, status, matriculado_em)
--- VALUES 
--- ('01a13d8d-9e3f-739f-9275-d4af524965e1', '01a13d8b-74c4-748f-99ba-dfd18755431f', '01a13d88-bab2-722a-be42-86d837120ee6', 'EM_ANDAMENTO', now()),
--- ('01a13d8e-248b-77bb-84e0-867799e9d5a9', '01a13d8b-74c4-748f-99ba-dfd18755431f', '01a13d88-d4f2-703e-acd5-88256d3982c7', 'EM_ANDAMENTO', now()),
--- ('01a13d8e-3ec9-7252-9729-7277588ad8c2', '01a13d8b-8fbf-7169-9481-ba1f50827bd1', '01a13d88-efc3-76de-adba-e93ce08251ae', 'EM_ANDAMENTO', now()),
-
 INSERT INTO matricula (id, aluno_id, curso_id, status, matriculado_em)
 SELECT 
     gen_random_uuid() AS id,
@@ -56,7 +49,6 @@ WHERE u.tipo = 'ALUNO';
 
 
 -- FEEDBACKS
-
 INSERT INTO public.feedback (id, matricula_id, descricao, nota, criado_em)
 SELECT 
     gen_random_uuid() AS id,
