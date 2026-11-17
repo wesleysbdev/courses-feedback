@@ -1,37 +1,83 @@
+
 name: Deploy Application Courses Feedback
 
 on:
-    push:
-        branches: [master]
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-            - name: Setup Java
-              uses: actions/setup-java@v3
-              with:
-                distribution: 'temurin'
-                java-version: '25'
-            - name: Build project
-              run: mvn clean install -DskipTests
-            - name: Login Docker Hub
-              run: docker login -u ${{secrets.DOCKER_USERNAME}} -p '${{secrets.DOCKER_PASSWORD}}'
-            - name: Build docker image
-              run: docker build -t inovahfiap/courses_feedback ./feedback-api
-            - name: Push image docker
-              run: docker push inovahfiap/courses_feedback
-              
-    deploy:
-        needs: build
-        runs-on: self-hosted
-        steps:
-            - name: Pull image from docker hub
-              run: docker pull inovahfiap/courses_feedback:latest
-            - name: Remove docker container
-              run: docker rm -f courses_feedback
-            - name: Run docker container
-              run: docker run -d -p 8080:8080 -e DATABASE_USERNAME=${{secrets.DATABASE_USERNAME}} -e DATABASE_PASSWORD='${{secrets.DATABASE_PASSWORD}}' -e DATABASE_URL=${{secrets.DATABASE_URL}} --name courses_feedback inovahfiap/courses_feedback
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Build project
+        run: mvn clean install -DskipTests
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./feedback-api
+          push: true
+          tags: |
+            inovahfiap/courses_feedback:${{ github.sha }}
+            inovahfiap/courses_feedback:latest
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to EC2 using SSM
+        shell: bash
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "i-0f4d4407d3d8eb54" \
+            --document-name "AWS-RunShellScript" \
+            --parameters "{\"commands\":[\"sudo -u ec2-user /home/ec2-user/deploy.sh $GITHUB_SHA\"]}" \
+            --query "Command.CommandId" \
+            --output text)
+
+          echo "SSM Command ID: $COMMAND_ID"
+
+          if ! aws ssm wait command-executed \
+            --command-id "$COMMAND_ID" \
+            --instance-id "i-0f4d4407d3d8eb54"; then
+
+            echo "Deploy falhou!"
+
+            aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "i-0f4d4407d3d8eb54" \
+              --query '{Status:Status,Output:StandardOutputContent,Error:StandardErrorContent}' \
+              --output json
+
+            exit 1
+          fi
+
+          aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id "i-0f4d4407d3d8eb54" \
+            --query 'StandardOutputContent' \
+            --output text
