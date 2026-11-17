@@ -1,5 +1,5 @@
 -- Altera o fuso horário padrão de um banco de dados específico
-ALTER DATABASE "courses_feedback" SET timezone TO 'America/Sao_Paulo';
+ALTER DATABASE "courses-feedback" SET timezone TO 'America/Sao_Paulo';
 
 -- TABELAS
 CREATE TABLE public.usuario
