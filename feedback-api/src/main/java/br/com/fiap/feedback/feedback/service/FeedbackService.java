@@ -19,6 +19,7 @@ import br.com.fiap.feedback.matricula.persistence.repository.MatriculaRepository
 import br.com.fiap.feedback.matricula.web.mapper.MatriculaMapper;
 import br.com.fiap.feedback.shared.PermissaoValidator;
 import lombok.RequiredArgsConstructor;
+import org.jboss.logging.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class FeedbackService {
+
+    private static final Logger LOG =
+            Logger.getLogger(FeedbackService.class);
 
     private final FeedbackRepository repository;
     private final FeedbackMapper mapper;
@@ -53,9 +57,18 @@ public class FeedbackService {
 
         FeedbackResponse response = mapper.paraResponse(repository.save(model));
 
+        LOG.info("Iniciando cadastro do feedback");
+
+        // Antes da notificação
+        LOG.info("Feedback salvo. Iniciando notificação SQS");
+
         if (response.avaliacao().getClassificacao() == FeedbackClassificacao.RUIM) {
             notificacaoService.notificar(mapper.paraNotificacao(feedback));
         }
+
+        LOG.info("Notificação SQS finalizada");
+
+        LOG.info("Finalizando cadastro do feedback");
 
         return response;
     }
