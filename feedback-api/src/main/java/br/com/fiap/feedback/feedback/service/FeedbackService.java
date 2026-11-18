@@ -53,6 +53,10 @@ public class FeedbackService {
 
         FeedbackResponse response = mapper.paraResponse(repository.save(model));
 
+        if (response.avaliacao().getClassificacao() == FeedbackClassificacao.RUIM) {
+            notificacaoService.notificar(mapper.paraNotificacao(feedback));
+        }
+
         return response;
     }
 
