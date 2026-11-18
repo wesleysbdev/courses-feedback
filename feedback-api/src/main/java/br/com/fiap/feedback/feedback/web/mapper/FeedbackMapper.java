@@ -4,7 +4,7 @@ import br.com.fiap.feedback.feedback.domain.entity.Feedback;
 import br.com.fiap.feedback.feedback.domain.vo.FeedbackAvaliacao;
 import br.com.fiap.feedback.feedback.persistence.model.FeedbackModel;
 import br.com.fiap.feedback.feedback.web.dto.FeedbackResponse;
-import br.com.fiap.feedback.feedback.web.dto.FeedbackNotificacao;
+import br.com.fiap.feedback.feedback.mensageria.dto.FeedbackNotificacaoEvento;
 import br.com.fiap.feedback.infraestructure.mapper.VoEmailMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -27,7 +27,7 @@ public interface FeedbackMapper {
 
     @Mapping(target = "feedbackId", source = "id")
     @Mapping(target = "versao", constant = "1")
-    FeedbackNotificacao paraNotificacao(Feedback feedback);
+    FeedbackNotificacaoEvento paraNotificacao(Feedback feedback);
 
     default FeedbackAvaliacao map(int nota) {
         return new FeedbackAvaliacao(nota);

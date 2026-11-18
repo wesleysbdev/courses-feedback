@@ -1,7 +1,7 @@
 package br.com.fiap.feedback.feedback.service.notificacao;
 
-import br.com.fiap.feedback.feedback.web.dto.FeedbackNotificacao;
+import br.com.fiap.feedback.feedback.mensageria.dto.FeedbackNotificacaoEvento;
 
 public interface NotificacaoService {
-    void notificar(FeedbackNotificacao notificacao);
+    void notificar(FeedbackNotificacaoEvento notificacao);
 }
