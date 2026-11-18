@@ -8,6 +8,7 @@ import br.com.fiap.feedback.feedback.web.dto.FeedbackResponse;
 import br.com.fiap.feedback.infraestructure.security.SecurityContextProvider;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.jboss.logging.Logger;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,14 +23,28 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FeedbackController {
 
+    private static final Logger LOG =
+            Logger.getLogger(FeedbackService.class);
+
     private final FeedbackService service;
     private final SecurityContextProvider contextProvider;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public FeedbackResponse cadastrarFeedback(@RequestBody @Valid FeedbackRequest request) {
-        UsuarioAutenticado usuarioAutenticado = contextProvider.obterUsuarioAutenticado();
-        return service.criar(request, usuarioAutenticado);
+    public FeedbackResponse cadastrarFeedback(
+            @RequestBody @Valid FeedbackRequest request
+    ) {
+        LOG.info("Controller: iniciando requisição");
+
+        UsuarioAutenticado usuarioAutenticado =
+                contextProvider.obterUsuarioAutenticado();
+
+        FeedbackResponse response =
+                service.criar(request, usuarioAutenticado);
+
+        LOG.info("Controller: serviço retornou");
+
+        return response;
     }
 
     @GetMapping
